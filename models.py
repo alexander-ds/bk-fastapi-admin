@@ -1,46 +1,47 @@
 from pydantic import BaseModel
+from sqlmodel import SQLModel,Field
 
-class EstudianteBase(BaseModel):
-    nombres : str
-    grado : str
-    salon : str
+class EstudianteBase(SQLModel):
+    Nombres : str = Field(default = None )
+    Grado : str = Field(default = None )
+    Salon : str = Field(default = None )
 
 class EstudianteCrear(EstudianteBase):
     pass
 
-class Estudiante(EstudianteBase):
-    id:int | None = None    
+class Estudiante(EstudianteBase,table=True):
+    ID:int | None = Field(default=None,primary_key=True)
 
-class PruebaBase(BaseModel): 
-    Nombre : str
-    Anio : str
+class PruebaBase(SQLModel): 
+    Nombre : str = Field(default = None )
+    Anio : str = Field(default = None )
 
 class PruebaCrear(PruebaBase):
     pass
 
 class Prueba(PruebaBase):
-    id:int | None = None   
+    ID:int | None = Field(default=None,primary_key=True)
 
 class PreguntaBase(BaseModel):
-    idPrueba : int 
-    Respuesta : str
-    Orden : str
+    IDPrueba : int  = Field(default = None )
+    Respuesta : str = Field(default = None )
+    Orden : str = Field(default = None )
 
 
 class PreguntaCrear(PreguntaBase):
     pass
 
 class Pregunta(PreguntaBase):
-    id:int | None = None   
+    ID:int | None = Field(default=None,primary_key=True)
 
 class ResultadoBase(BaseModel):
-    idPregunta : int
-    idEstudiante : int
-    idPrueba : str
+    IDPregunta : int = Field(default = None )
+    IDEstudiante : int = Field(default = None )
+    IDPrueba : str = Field(default = None )
 
 
 class ResultadoCrear(ResultadoBase):
     pass
 
 class Resultado(ResultadoBase):
-    id:int | None = None   
+    ID:int | None = Field(default=None,primary_key=True)

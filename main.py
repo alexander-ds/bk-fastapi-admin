@@ -1,6 +1,7 @@
 from pydantic import BaseModel
 from fastapi import FastAPI
 from models import EstudianteCrear,Estudiante,PruebaCrear,Prueba,PreguntaCrear,Pregunta,ResultadoCrear,Resultado
+from db import SessionDep
 
 app = FastAPI()
 current_id: int = 0
@@ -10,7 +11,7 @@ async def root () :
     return {"message": "Hello"}
 
 @app.post('/estudiantes',response_model=Estudiante)
-async def create_student (Estudiante_data:EstudianteCrear):
+async def create_student (Estudiante_data:EstudianteCrear,session:SessionDep):
     estudiante = Estudiante.model_validate(Estudiante_data.model_dump())
     estudiante.id=current_id+1
     return estudiante
