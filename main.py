@@ -1,18 +1,32 @@
 from pydantic import BaseModel
 from fastapi import FastAPI
-
-class Student(BaseModel):
-    ID : int 
-    Nombres : str
-    Grado : str
-    Salon : str
+from models import EstudianteCrear,Estudiante,PruebaCrear,Prueba,PreguntaCrear,Pregunta,ResultadoCrear,Resultado
 
 app = FastAPI()
+current_id: int = 0
 
 @app.get('/')
 async def root () :
     return {"message": "Hello"}
 
-@app.post('/estudiantes')
-async def create_student (student_data:Student):
-    return student_data
+@app.post('/estudiantes',response_model=Estudiante)
+async def create_student (Estudiante_data:EstudianteCrear):
+    estudiante = Estudiante.model_validate(Estudiante_data.model_dump())
+    estudiante.id=current_id+1
+    return estudiante
+
+@app.get('/estudiantes')
+async def create_student (Estudiante_data:EstudianteCrear):
+    return dbResponse
+
+@app.post('/pruebas',response_model=Prueba)
+async def create_student (Prueba_data:PruebaCrear):
+    return Prueba_data
+    
+@app.post('/preguntas',response_model=Pregunta)
+async def create_student (Pregunta_data:PreguntaCrear):
+    return Pregunta_data
+
+@app.post('/resultados',response_model=Resultado)
+async def create_student (Resultado_data:ResultadoCrear):
+    return Resultado_data
